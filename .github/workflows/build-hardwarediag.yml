@@ -1,6 +1,6 @@
 # Build HardWareDiag Windows EXE and installer (runs on Windows).
+# Repo root = app folder (main.py, requirements.txt, HardwareDiag.spec, HardWareDiag.iss).
 # Artifacts: HardwareDiag.exe (portable), HardWareDiag_Setup.exe (installer).
-# Download from Actions run and place into HardWareDiag-website/downloads/.
 
 name: Build HardWareDiag (Windows)
 
@@ -8,8 +8,6 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths:
-      - 'HardWareDiag/**'
 
 jobs:
   build:
@@ -25,32 +23,28 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd HardWareDiag
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pyinstaller
 
       - name: Build portable EXE (PyInstaller)
-        run: |
-          cd HardWareDiag
-          pyinstaller HardwareDiag.spec
+        run: pyinstaller HardwareDiag.spec
 
       - name: Install Inno Setup
         run: choco install innosetup -y
 
       - name: Build installer
         run: |
-          cd HardWareDiag
           & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" HardWareDiag.iss
 
       - name: Upload portable EXE
         uses: actions/upload-artifact@v4
         with:
           name: HardwareDiag-exe
-          path: HardWareDiag/dist/HardwareDiag.exe
+          path: dist/HardwareDiag.exe
 
       - name: Upload installer EXE
         uses: actions/upload-artifact@v4
         with:
           name: HardWareDiag-Setup-exe
-          path: HardWareDiag/Output/HardWareDiag_Setup.exe
+          path: Output/HardWareDiag_Setup.exe
