@@ -1,0 +1,10 @@
+customtkinter
+wmi
+psutil
+pywin32
+pythonnet
+fpdf2
+pystray
+Pillow
+flet
+pyperclip
