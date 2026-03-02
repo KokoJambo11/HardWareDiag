@@ -7,4 +7,5 @@ fpdf2
 pystray
 Pillow
 flet
+flet-desktop
 pyperclip
